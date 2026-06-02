@@ -17,7 +17,7 @@
         --accent: #ff0000;
         --hover: #3d3d3d;
     }
-    
+
     [data-theme="light"] {
         --bg-primary: #ffffff;
         --bg-secondary: #f9f9f9;
@@ -59,29 +59,29 @@
         font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
-    .sidebar-item.active {
+   .sidebar-item.active {
         background-color: var(--hover);
     }
 
-    .sidebar-item:hover {
+   .sidebar-item:hover {
         background-color: var(--hover);
     }
 
-    .video-card:hover .thumbnail-overlay {
+   .video-card:hover.thumbnail-overlay {
         opacity: 1;
     }
 
-    .video-card:hover {
+   .video-card:hover {
         transform: translateY(-2px);
         transition: transform 0.2s ease;
     }
 
-    .search-input:focus {
+   .search-input:focus {
         border-color: #1c62b9;
         outline: none;
     }
 
-    .gradient-text {
+   .gradient-text {
         background: linear-gradient(90deg, #ff0000, #ff5e00);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -93,11 +93,11 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-    .fade-in {
+   .fade-in {
         animation: fadeIn 0.4s ease-out forwards;
     }
 
-    .video-player {
+   .video-player {
         aspect-ratio: 16/9;
         background: #000;
         border-radius: 12px;
@@ -105,7 +105,7 @@
     }
 
     @media (max-width: 768px) {
-        .sidebar-desktop {
+       .sidebar-desktop {
             display: none;
         }
     }
@@ -129,9 +129,9 @@
             <!-- Center: Search Bar -->
             <div class="flex-1 max-w-2xl hidden md:flex">
                 <div class="flex w-full">
-                    <input 
-                        type="text" 
-                        placeholder="Search" 
+                    <input
+                        type="text"
+                        placeholder="Search"
                         class="search-input w-full px-4 py-2 rounded-l-full border focus:outline-none"
                         style="background-color: var(--bg-primary); border-color: var(--border-color); color: var(--text-primary);"
                         id="searchInput"
@@ -157,7 +157,7 @@
                     <i class="fas fa-bell text-xl" style="color: var(--text-primary)"></i>
                 </button>
                 <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center cursor-pointer ml-2">
-                    <span class="text-white font-semibold text-sm">U</span>
+                    <span class="text-white font-semibold text-sm">A</span>
                 </div>
             </div>
         </div>
@@ -165,9 +165,9 @@
         <!-- Mobile Search Bar -->
         <div id="mobileSearchBar" class="hidden px-4 pb-3 md:hidden">
             <div class="flex w-full">
-                <input 
-                    type="text" 
-                    placeholder="Search" 
+                <input
+                    type="text"
+                    placeholder="Search"
                     class="w-full px-4 py-2 rounded-l-full border focus:outline-none"
                     style="background-color: var(--bg-primary); border-color: var(--border-color); color: var(--text-primary);"
                 >
@@ -194,9 +194,9 @@
                     <i class="fas fa-play-circle text-xl"></i>
                     <span>Subscriptions</span>
                 </div>
-                
+
                 <div class="my-3 h-px" style="background-color: var(--border-color);"></div>
-                
+
                 <div class="sidebar-item flex items-center gap-6 px-3 py-2 rounded-lg cursor-pointer">
                     <i class="fas fa-photo-video text-xl"></i>
                     <span>Library</span>
@@ -215,7 +215,7 @@
                 </div>
 
                 <div class="my-3 h-px" style="background-color: var(--border-color);"></div>
-                
+
                 <div class="px-3 py-2">
                     <h3 class="font-semibold text-sm mb-3" style="color: var(--text-secondary);">SUBSCRIPTIONS</h3>
                     <div class="space-y-3">
@@ -242,14 +242,14 @@
                 <!-- Video Player Section -->
                 <div class="flex-1">
                     <div class="video-player shadow-2xl">
-                        <iframe 
+                        <iframe
                             id="mainPlayer"
-                            width="100%" 
-                            height="100%" 
+                            width="100%"
+                            height="100%"
                             src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0"
-                            title="Video Player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            title="Video Player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen
                             class="w-full h-full">
                         </iframe>
@@ -260,7 +260,7 @@
                         <h1 id="videoTitle" class="text-xl lg:text-2xl font-bold mb-3" style="color: var(--text-primary);">
                             Never Gonna Give You Up - Rick Astley
                         </h1>
-                        
+
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b" style="border-color: var(--border-color);">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center">
@@ -312,9 +312,9 @@
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
                                     <span class="text-white font-semibold text-sm">U</span>
                                 </div>
-                                <input 
-                                    type="text" 
-                                    placeholder="Add a comment..." 
+                                <input
+                                    type="text"
+                                    placeholder="Add a comment..."
                                     class="flex-1 pb-2 border-b focus:outline-none bg-transparent"
                                     style="border-color: var(--border-color); color: var(--text-primary);"
                                 >
@@ -335,26 +335,26 @@
     </div>
 
     <script>
-        // CONST: 10 Videos - Replace these URLs with your own YouTube embed URLs
+        // CONST: 10 Videos - Fixed IDs and thumbnails
         const VIDEOS = [
             {
-                id: 'a18py61_F_w&list=RDa18py61_F_w&start_radio=1',
-                title: 'Ati Aslam',
+                id: 'a18py61_F_w',
+                title: 'Atif Aslam',
                 channel: 'Rick Astley',
                 views: '1.5B views',
                 date: '14 years ago',
                 duration: '3:32',
-                thumbnail: 'https://www.youtube.com/watch?v=a18py61_F_w&list=RDa18py61_F_w&start_radio=1/default.jpg',
+                thumbnail: 'https://i.ytimg.com/vi/a18py61_F_w/hqdefault.jpg',
                 description: 'The official music video for "Never Gonna Give You Up" by Rick Astley'
             },
             {
-                id: 'a18py61_F_w&list=RDa18py61_F_w&start_radio=1',
-                title: 'same -My',
+                id: 'a18py61_F_w',
+                title: 'PSY - GANGNAM STYLE',
                 channel: 'officialpsy',
                 views: '4.8B views',
                 date: '11 years ago',
                 duration: '4:12',
-                thumbnail: 'https://i.ytimg.com/vi/a18py61_F_w&list=RDa18py61_F_w&start_radio=1/default.jpg',
+                thumbnail: 'https://i.ytimg.com/vi/a18py61_F_w/hqdefault.jpg',
                 description: 'PSY - Gangnam Style Korean Music Video'
             },
             {
@@ -453,8 +453,8 @@
         function renderVideoList() {
             const videoList = document.getElementById('videoList');
             videoList.innerHTML = VIDEOS.map((video, index) => `
-                <div class="video-card flex gap-3 cursor-pointer rounded-lg p-2 transition-all fade-in" 
-                     style="animation-delay: ${index * 0.05}s; background-color: ${index === currentVideoIndex ? 'var(--bg-tertiary)' : 'transparent'}"
+                <div class="video-card flex gap-3 cursor-pointer rounded-lg p-2 transition-all fade-in"
+                     style="animation-delay: ${index * 0.05}s; background-color: ${index === currentVideoIndex? 'var(--bg-tertiary)' : 'transparent'}"
                      data-index="${index}">
                     <div class="relative flex-shrink-0 w-40 h-24 rounded-lg overflow-hidden">
                         <img src="${video.thumbnail}" alt="${video.title}" class="w-full h-full object-cover">
@@ -488,12 +488,12 @@
         function loadVideo(index) {
             currentVideoIndex = index;
             const video = VIDEOS[index];
-            
+
             // Update player
             document.getElementById('mainPlayer').src = `https://www.youtube.com/embed/${video.id}?autoplay=0&rel=0`;
             document.getElementById('videoTitle').textContent = video.title;
             document.getElementById('videoDescription').textContent = video.description;
-            
+
             // Update active state
             document.querySelectorAll('.video-card').forEach((card, i) => {
                 if (i === index) {
@@ -511,11 +511,11 @@
 
         // Theme toggle
         function toggleTheme() {
-            isDarkMode = !isDarkMode;
-            document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+            isDarkMode =!isDarkMode;
+            document.body.setAttribute('data-theme', isDarkMode? 'dark' : 'light');
             const icon = document.getElementById('themeIcon');
-            icon.className = isDarkMode ? 'fas fa-moon text-xl' : 'fas fa-sun text-xl';
-            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            icon.className = isDarkMode? 'fas fa-moon text-xl' : 'fas fa-sun text-xl';
+            localStorage.setItem('theme', isDarkMode? 'dark' : 'light');
         }
 
         // Setup event listeners
@@ -555,7 +555,7 @@
             if (savedTheme) {
                 isDarkMode = savedTheme === 'dark';
                 document.body.setAttribute('data-theme', savedTheme);
-                document.getElementById('themeIcon').className = isDarkMode ? 'fas fa-moon text-xl' : 'fas fa-sun text-xl';
+                document.getElementById('themeIcon').className = isDarkMode? 'fas fa-moon text-xl' : 'fas fa-sun text-xl';
             }
         }
 
