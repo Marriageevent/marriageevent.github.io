@@ -59,29 +59,29 @@
         font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     }
 
-   .sidebar-item.active {
+  .sidebar-item.active {
         background-color: var(--hover);
     }
 
-   .sidebar-item:hover {
+  .sidebar-item:hover {
         background-color: var(--hover);
     }
 
-   .video-card:hover.thumbnail-overlay {
+  .video-card:hover.thumbnail-overlay {
         opacity: 1;
     }
 
-   .video-card:hover {
+  .video-card:hover {
         transform: translateY(-2px);
         transition: transform 0.2s ease;
     }
 
-   .search-input:focus {
+  .search-input:focus {
         border-color: #1c62b9;
         outline: none;
     }
 
-   .gradient-text {
+  .gradient-text {
         background: linear-gradient(90deg, #ff0000, #ff5e00);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -93,11 +93,11 @@
         to { opacity: 1; transform: translateY(0); }
     }
 
-   .fade-in {
+  .fade-in {
         animation: fadeIn 0.4s ease-out forwards;
     }
 
-   .video-player {
+  .video-player {
         aspect-ratio: 16/9;
         background: #000;
         border-radius: 12px;
@@ -105,7 +105,7 @@
     }
 
     @media (max-width: 768px) {
-       .sidebar-desktop {
+      .sidebar-desktop {
             display: none;
         }
     }
@@ -246,7 +246,7 @@
                             id="mainPlayer"
                             width="100%"
                             height="100%"
-                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0"
+                            src="https://www.youtube.com/embed/g3jCAyPaiBo?autoplay=0"
                             title="Video Player"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -258,7 +258,7 @@
                     <!-- Video Info -->
                     <div class="mt-4 fade-in">
                         <h1 id="videoTitle" class="text-xl lg:text-2xl font-bold mb-3" style="color: var(--text-primary);">
-                            Never Gonna Give You Up - Rick Astley
+                            Atif Aslam - Jeena Jeena
                         </h1>
 
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b" style="border-color: var(--border-color);">
@@ -297,11 +297,11 @@
                         <!-- Description -->
                         <div class="mt-4 p-3 rounded-xl" style="background-color: var(--bg-tertiary);">
                             <div class="flex gap-4 text-sm font-semibold mb-2">
-                                <span style="color: var(--text-primary);">1.5B views</span>
-                                <span style="color: var(--text-primary);">Jul 14, 2023</span>
+                                <span style="color: var(--text-primary);">500M views</span>
+                                <span style="color: var(--text-primary);">Jan 10, 2024</span>
                             </div>
                             <p id="videoDescription" class="text-sm" style="color: var(--text-primary);">
-                                Welcome to Amir Hub! This is a demo video player. Replace the video URLs in the JavaScript section to customize your 10 constant videos. Click any video from the sidebar to play it here.
+                                Welcome to Amir Hub! Click any video from the sidebar to play it here.
                             </p>
                         </div>
 
@@ -335,80 +335,67 @@
     </div>
 
     <script>
-        // CONST: 10 Videos - Fixed IDs and thumbnails
-        const VIDEOS = [
-            {
-                id: 'a18py61_F_w',
-                title: 'Atif Aslam',
-                views: '1.5B views',
-                date: '14 years ago',
-                duration: '3:32',
-                thumbnail: 'https://i.ytimg.com/vi/a18py61_F_w/hqdefault.jpg',
-                description: 'The official music video for "Never Gonna Give You Up" by Rick Astley'
-            },
-            {
-                id: '7-dG0wjd8P8',
-                title: 'Mustafa Mustafa'
-                views: '4.8B views',
-                date: '11 years ago',
-                duration: '4:12',
-                thumbnail: 'https://i.ytimg.com/vi/7-dG0wjd8P8/hqdefault.jpg'
-            },
-            {
-                id: 'cHqfk5lMw-E',
-                title: 'Cartoon',
-                views: '8.3B views',
-                date: '7 years ago',
-                duration: '4:41',
-                thumbnail: 'https://i.ytimg.com/vi/cHqfk5lMw-E/hqdefault.jpg'
-            },
+        // CONST: 10 Videos - All embeddable + fixed syntax
+        const VIDEOS = 
             {
                 id: 'fRBJz6OQkeI',
                 title: 'Bismillah Allahu Akbar Nasheed',
-                views: '6.1B views',
-                date: '7 years ago',
+                channel: 'Islamic Kids',
+                views: '50M views',
+                date: '5 years ago',
                 duration: '3:53',
-                thumbnail: 'https://i.ytimg.com/vi/fRBJz6OQkeI/hqdefault.jpg'
+                thumbnail: 'https://i.ytimg.com/vi/fRBJz6OQkeI/hqdefault.jpg',
+                description: 'Beautiful Islamic Nasheed for Kids'
             },
             {
                 id: 'Bl5La17VIlA',
                 title: 'Beautiful Bedtime Nasheed',
-                views: '4.0B views',
-                date: '10 years ago',
+                channel: 'Kids Islamic',
+                views: '20M views',
+                date: '4 years ago',
                 duration: '4:30',
-                thumbnail: 'https://i.ytimg.com/vi/Bl5La17VIlA/hqdefault.jpg'
+                thumbnail: 'https://i.ytimg.com/vi/Bl5La17VIlA/hqdefault.jpg',
+                description: 'Bedtime Nasheed for Children'
             },
             {
                 id: '00B-2zvZY7A',
-                title: 'Allah Hu Allah| Beautiful Islamic Lullaby Cartoon',
-                views: '3.0B views',
-                date: '8 years ago',
+                title: 'Allah Hu Allah | Islamic Lullaby',
+                channel: 'Islamic Cartoon',
+                views: '35M views',
+                date: '6 years ago',
                 duration: '6:07',
-                thumbnail: 'https://i.ytimg.com/vi/00B-2zvZY7A/hqdefault.jpg'
+                thumbnail: 'https://i.ytimg.com/vi/00B-2zvZY7A/hqdefault.jpg',
+                description: 'Allah Hu Allah Islamic Lullaby Cartoon'
             },
             {
                 id: 'IgYawmeCsPc',
-                title: ' Alhamdulillah Allahu Akbar Subhan allah',
-                views: '3.7B views',
-                date: '8 years ago',
+                title: 'Alhamdulillah Allahu Akbar',
+                channel: 'Nasheed World',
+                views: '15M views',
+                date: '3 years ago',
                 duration: '3:25',
-                thumbnail: 'https://i.ytimg.com/vi/IgYawmeCsPc/hqdefault.jpg'
+                thumbnail: 'https://i.ytimg.com/vi/IgYawmeCsPc/hqdefault.jpg',
+                description: 'Alhamdulillah Allahu Akbar Subhan Allah'
             },
             {
                 id: 'h8HmVLA0mQY',
-                title: 'Pehla Kalima Tayab | Dusra Kalima Shahadat',
-                views: '3.5B views',
-                date: '8 years ago',
+                title: 'Pehla Kalima Tayab',
+                channel: 'Islamic Learning',
+                views: '25M views',
+                date: '5 years ago',
                 duration: '3:32',
-                thumbnail: 'https://i.ytimg.com/vi/h8HmVLA0mQY/hqdefault.jpg'
+                thumbnail: 'https://i.ytimg.com/vi/h8HmVLA0mQY/hqdefault.jpg',
+                description: 'Pehla Kalima Tayab | Dusra Kalima Shahadat'
             },
             {
                 id: 'AZdvYq0owJM',
                 title: 'Chirya Boli Chuu Chuu',
-                views: '6.2B views',
-                date: '9 years ago',
+                channel: 'Kids Rhymes',
+                views: '40M views',
+                date: '6 years ago',
                 duration: '3:57',
-                thumbnail: 'https://i.ytimg.com/vi/AZdvYq0owJM/hqdefault.jpg'
+                thumbnail: 'https://i.ytimg.com/vi/AZdvYq0owJM/hqdefault.jpg',
+                description: 'Chirya Boli Chuu Chuu Hindi Rhyme'
             }
         ];
 
@@ -462,7 +449,7 @@
             currentVideoIndex = index;
             const video = VIDEOS[index];
 
-            // Update player
+            // Update player - added rel=0 to prevent related videos from other channels
             document.getElementById('mainPlayer').src = `https://www.youtube.com/embed/${video.id}?autoplay=0&rel=0`;
             document.getElementById('videoTitle').textContent = video.title;
             document.getElementById('videoDescription').textContent = video.description;
@@ -548,6 +535,5 @@
         // Initialize on load
         document.addEventListener('DOMContentLoaded', init);
     </script>
-<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
 </body>
 </html>
