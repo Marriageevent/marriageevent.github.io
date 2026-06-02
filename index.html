@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amir Hub - Video Platform</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+    :root {
+        --bg-primary: #0f0f0f;
+        --bg-secondary: #212121;
+        --bg-tertiary: #303030;
+        --text-primary: #f1f1f1;
+        --text-secondary: #aaaaaa;
+        --border-color: #3f3f3f;
+        --accent: #ff0000;
+        --hover: #3d3d3d;
+    }
+    
+    [data-theme="light"] {
+        --bg-primary: #ffffff;
+        --bg-secondary: #f9f9f9;
+        --bg-tertiary: #f1f1f1;
+        --text-primary: #0f0f0f;
+        --text-secondary: #606060;
+        --border-color: #e5e5e5;
+        --accent: #cc0000;
+        --hover: #e5e5e5;
+    }
+
+    * {
+        scrollbar-width: thin;
+        scrollbar-color: var(--bg-tertiary) var(--bg-primary);
+    }
+
+    *::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: var(--bg-primary);
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background: var(--bg-tertiary);
+        border-radius: 4px;
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+        background: var(--hover);
+    }
+
+    body {
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        transition: background-color 0.3s ease, color 0.3s ease;
+        font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .sidebar-item.active {
+        background-color: var(--hover);
+    }
+
+    .sidebar-item:hover {
+        background-color: var(--hover);
+    }
+
+    .video-card:hover .thumbnail-overlay {
+        opacity: 1;
+    }
+
+    .video-card:hover {
+        transform: translateY(-2px);
+        transition: transform 0.2s ease;
+    }
+
+    .search-input:focus {
+        border-color: #1c62b9;
+        outline: none;
+    }
+
+    .gradient-text {
+        background: linear-gradient(90deg, #ff0000, #ff5e00);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.4s ease-out forwards;
+    }
+
+    .video-player {
+        aspect-ratio: 16/9;
+        background: #000;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+        .sidebar-desktop {
+            display: none;
+        }
+    }
+</style>
+</head>
+<body data-theme="dark">
+    <!-- Header -->
+    <header class="sticky top-0 z-50 border-b" style="background-color: var(--bg-primary); border-color: var(--border-color);">
+        <div class="flex items-center justify-between px-4 py-2 gap-4">
+            <!-- Left: Logo + Menu -->
+            <div class="flex items-center gap-4">
+                <button id="menuToggle" class="p-2 rounded-full hover:bg-opacity-80" style="background-color: transparent;">
+                    <i class="fas fa-bars text-xl" style="color: var(--text-primary)"></i>
+                </button>
+                <div class="flex items-center gap-1 cursor-pointer">
+                    <i class="fab fa-youtube text-3xl" style="color: var(--accent)"></i>
+                    <span class="text-xl font-bold gradient-text hidden sm:inline">Amir Hub</span>
+                </div>
+            </div>
+
+            <!-- Center: Search Bar -->
+            <div class="flex-1 max-w-2xl hidden md:flex">
+                <div class="flex w-full">
+                    <input 
+                        type="text" 
+                        placeholder="Search" 
+                        class="search-input w-full px-4 py-2 rounded-l-full border focus:outline-none"
+                        style="background-color: var(--bg-primary); border-color: var(--border-color); color: var(--text-primary);"
+                        id="searchInput"
+                    >
+                    <button class="px-6 rounded-r-full border border-l-0" style="background-color: var(--bg-tertiary); border-color: var(--border-color);">
+                        <i class="fas fa-search" style="color: var(--text-primary)"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Actions -->
+            <div class="flex items-center gap-2">
+                <button class="p-2 rounded-full md:hidden" id="mobileSearchBtn">
+                    <i class="fas fa-search text-xl" style="color: var(--text-primary)"></i>
+                </button>
+                <button class="p-2 rounded-full" id="themeToggle">
+                    <i class="fas fa-moon text-xl" style="color: var(--text-primary)" id="themeIcon"></i>
+                </button>
+                <button class="p-2 rounded-full hidden sm:block">
+                    <i class="fas fa-video text-xl" style="color: var(--text-primary)"></i>
+                </button>
+                <button class="p-2 rounded-full hidden sm:block">
+                    <i class="fas fa-bell text-xl" style="color: var(--text-primary)"></i>
+                </button>
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center cursor-pointer ml-2">
+                    <span class="text-white font-semibold text-sm">U</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div id="mobileSearchBar" class="hidden px-4 pb-3 md:hidden">
+            <div class="flex w-full">
+                <input 
+                    type="text" 
+                    placeholder="Search" 
+                    class="w-full px-4 py-2 rounded-l-full border focus:outline-none"
+                    style="background-color: var(--bg-primary); border-color: var(--border-color); color: var(--text-primary);"
+                >
+                <button class="px-6 rounded-r-full border border-l-0" style="background-color: var(--bg-tertiary); border-color: var(--border-color);">
+                    <i class="fas fa-search" style="color: var(--text-primary)"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar-desktop w-64 fixed left-0 top-14 h-[calc(100vh-56px)] overflow-y-auto border-r transition-all duration-300" style="background-color: var(--bg-primary); border-color: var(--border-color);">
+            <div class="p-3">
+                <div class="sidebar-item active flex items-center gap-6 px-3 py-2 rounded-lg cursor-pointer">
+                    <i class="fas fa-home text-xl"></i>
+                    <span class="font-medium">Home</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-6 px-3 py-2 rounded-lg cursor-pointer mt-1">
+                    <i class="fas fa-compass text-xl"></i>
+                    <span>Explore</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-6 px-3 py-2 rounded-lg cursor-pointer mt-1">
+                    <i class="fas fa-play-circle text-xl"></i>
+                    <span>Subscriptions</span>
+                </div>
+                
+                <div class="my-3 h-px" style="background-color: var(--border-color);"></div>
+                
+                <div class="sidebar-item flex items-center gap-6 px-3 py-2 rounded-lg cursor-pointer">
+                    <i class="fas fa-photo-video text-xl"></i>
+                    <span>Library</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-6 px-3 py-2 rounded-lg cursor-pointer mt-1">
+                    <i class="fas fa-history text-xl"></i>
+                    <span>History</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-6 px-3 py-2 rounded-lg cursor-pointer mt-1">
+                    <i class="fas fa-clock text-xl"></i>
+                    <span>Watch Later</span>
+                </div>
+                <div class="sidebar-item flex items-center gap-6 px-3 py-2 rounded-lg cursor-pointer mt-1">
+                    <i class="fas fa-thumbs-up text-xl"></i>
+                    <span>Liked Videos</span>
+                </div>
+
+                <div class="my-3 h-px" style="background-color: var(--border-color);"></div>
+                
+                <div class="px-3 py-2">
+                    <h3 class="font-semibold text-sm mb-3" style="color: var(--text-secondary);">SUBSCRIPTIONS</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 cursor-pointer">
+                            <div class="w-6 h-6 rounded-full bg-blue-500"></div>
+                            <span class="text-sm">Tech Channel</span>
+                        </div>
+                        <div class="flex items-center gap-3 cursor-pointer">
+                            <div class="w-6 h-6 rounded-full bg-green-500"></div>
+                            <span class="text-sm">Code Masters</span>
+                        </div>
+                        <div class="flex items-center gap-3 cursor-pointer">
+                            <div class="w-6 h-6 rounded-full bg-red-500"></div>
+                            <span class="text-sm">Design Hub</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="mainContent" class="flex-1 md:ml-64 transition-all duration-300">
+            <div class="flex flex-col lg:flex-row gap-6 p-4 lg:p-6 max-w-[1800px] mx-auto">
+                <!-- Video Player Section -->
+                <div class="flex-1">
+                    <div class="video-player shadow-2xl">
+                        <iframe 
+                            id="mainPlayer"
+                            width="100%" 
+                            height="100%" 
+                            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0"
+                            title="Video Player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            class="w-full h-full">
+                        </iframe>
+                    </div>
+
+                    <!-- Video Info -->
+                    <div class="mt-4 fade-in">
+                        <h1 id="videoTitle" class="text-xl lg:text-2xl font-bold mb-3" style="color: var(--text-primary);">
+                            Never Gonna Give You Up - Rick Astley
+                        </h1>
+                        
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b" style="border-color: var(--border-color);">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-red-500 to-orange-500 flex items-center justify-center">
+                                    <i class="fas fa-user text-white"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold" style="color: var(--text-primary);">Amir Hub Official</h3>
+                                    <p class="text-sm" style="color: var(--text-secondary);">1.2M subscribers</p>
+                                </div>
+                                <button class="ml-4 px-4 py-2 rounded-full font-semibold text-white transition-all hover:opacity-90" style="background-color: var(--accent);">
+                                    Subscribe
+                                </button>
+                            </div>
+
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <button class="flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:bg-opacity-80" style="background-color: var(--bg-tertiary);">
+                                    <i class="fas fa-thumbs-up"></i>
+                                    <span>245K</span>
+                                </button>
+                                <button class="flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:bg-opacity-80" style="background-color: var(--bg-tertiary);">
+                                    <i class="fas fa-thumbs-down"></i>
+                                </button>
+                                <button class="flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:bg-opacity-80" style="background-color: var(--bg-tertiary);">
+                                    <i class="fas fa-share"></i>
+                                    <span class="hidden sm:inline">Share</span>
+                                </button>
+                                <button class="flex items-center gap-2 px-4 py-2 rounded-full transition-all hover:bg-opacity-80" style="background-color: var(--bg-tertiary);">
+                                    <i class="fas fa-download"></i>
+                                    <span class="hidden sm:inline">Download</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mt-4 p-3 rounded-xl" style="background-color: var(--bg-tertiary);">
+                            <div class="flex gap-4 text-sm font-semibold mb-2">
+                                <span style="color: var(--text-primary);">1.5B views</span>
+                                <span style="color: var(--text-primary);">Jul 14, 2023</span>
+                            </div>
+                            <p id="videoDescription" class="text-sm" style="color: var(--text-primary);">
+                                Welcome to Amir Hub! This is a demo video player. Replace the video URLs in the JavaScript section to customize your 10 constant videos. Click any video from the sidebar to play it here.
+                            </p>
+                        </div>
+
+                        <!-- Comments Section -->
+                        <div class="mt-6">
+                            <h3 class="text-xl font-bold mb-4" style="color: var(--text-primary);">342 Comments</h3>
+                            <div class="flex gap-3 mb-6">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center flex-shrink-0">
+                                    <span class="text-white font-semibold text-sm">U</span>
+                                </div>
+                                <input 
+                                    type="text" 
+                                    placeholder="Add a comment..." 
+                                    class="flex-1 pb-2 border-b focus:outline-none bg-transparent"
+                                    style="border-color: var(--border-color); color: var(--text-primary);"
+                                >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar - Video List -->
+                <div class="w-full lg:w-96 lg:flex-shrink-0">
+                    <h2 class="text-lg font-bold mb-4" style="color: var(--text-primary);">Up Next</h2>
+                    <div id="videoList" class="space-y-3">
+                        <!-- Videos will be inserted here by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // CONST: 10 Videos - Replace these URLs with your own YouTube embed URLs
+        const VIDEOS = [
+            {
+                id: 'a18py61_F_w&list=RDa18py61_F_w&start_radio=1',
+                title: 'Ati Aslam',
+                channel: 'Rick Astley',
+                views: '1.5B views',
+                date: '14 years ago',
+                duration: '3:32',
+                thumbnail: 'https://www.youtube.com/watch?v=a18py61_F_w&list=RDa18py61_F_w&start_radio=1/default.jpg',
+                description: 'The official music video for "Never Gonna Give You Up" by Rick Astley'
+            },
+            {
+                id: 'a18py61_F_w&list=RDa18py61_F_w&start_radio=1',
+                title: 'same -My',
+                channel: 'officialpsy',
+                views: '4.8B views',
+                date: '11 years ago',
+                duration: '4:12',
+                thumbnail: 'https://i.ytimg.com/vi/a18py61_F_w&list=RDa18py61_F_w&start_radio=1/default.jpg',
+                description: 'PSY - Gangnam Style Korean Music Video'
+            },
+            {
+                id: 'kJQP7kiw5Fk',
+                title: 'Luis Fonsi - Despacito ft. Daddy Yankee',
+                channel: 'Luis Fonsi',
+                views: '8.3B views',
+                date: '7 years ago',
+                duration: '4:41',
+                thumbnail: 'https://i.ytimg.com/vi/kJQP7kiw5Fk/hqdefault.jpg',
+                description: 'Despacito - Luis Fonsi ft. Daddy Yankee'
+            },
+            {
+                id: 'JGwWNGJdvx8',
+                title: 'Ed Sheeran - Shape of You',
+                channel: 'Ed Sheeran',
+                views: '6.1B views',
+                date: '7 years ago',
+                duration: '3:53',
+                thumbnail: 'https://i.ytimg.com/vi/JGwWNGJdvx8/hqdefault.jpg',
+                description: 'The official music video for Ed Sheeran - Shape Of You'
+            },
+            {
+                id: 'CevxZvSJLk8',
+                title: 'Katy Perry - Roar',
+                channel: 'Katy Perry',
+                views: '4.0B views',
+                date: '10 years ago',
+                duration: '4:30',
+                thumbnail: 'https://i.ytimg.com/vi/CevxZvSJLk8/hqdefault.jpg',
+                description: 'Katy Perry - Roar Official Music Video'
+            },
+            {
+                id: 'YQHsXMglC9A',
+                title: 'Adele - Hello',
+                channel: 'Adele',
+                views: '3.0B views',
+                date: '8 years ago',
+                duration: '6:07',
+                thumbnail: 'https://i.ytimg.com/vi/YQHsXMglC9A/hqdefault.jpg',
+                description: 'Adele - Hello Official Music Video'
+            },
+            {
+                id: 'fRh_vgS2dFE',
+                title: 'Justin Bieber - Sorry',
+                channel: 'Justin Bieber',
+                views: '3.7B views',
+                date: '8 years ago',
+                duration: '3:25',
+                thumbnail: 'https://i.ytimg.com/vi/fRh_vgS2dFE/hqdefault.jpg',
+                description: 'Justin Bieber - Sorry (PURPOSE: The Movement)'
+            },
+            {
+                id: '60ItHLz5WEA',
+                title: 'Alan Walker - Faded',
+                channel: 'Alan Walker',
+                views: '3.5B views',
+                date: '8 years ago',
+                duration: '3:32',
+                thumbnail: 'https://i.ytimg.com/vi/60ItHLz5WEA/hqdefault.jpg',
+                description: 'Alan Walker - Faded is one of the most streamed songs'
+            },
+            {
+                id: 'RgKAFK5djSk',
+                title: 'Wiz Khalifa - See You Again ft. Charlie Puth',
+                channel: 'Wiz Khalifa',
+                views: '6.2B views',
+                date: '9 years ago',
+                duration: '3:57',
+                thumbnail: 'https://i.ytimg.com/vi/RgKAFK5djSk/hqdefault.jpg',
+                description: 'See You Again ft. Charlie Puth from Furious 7 Soundtrack'
+            },
+            {
+                id: 'hT_nvWreIhg',
+                title: 'OneRepublic - Counting Stars',
+                channel: 'OneRepublic',
+                views: '4.0B views',
+                date: '11 years ago',
+                duration: '4:44',
+                thumbnail: 'https://i.ytimg.com/vi/hT_nvWreIhg/hqdefault.jpg',
+                description: 'OneRepublic - Counting Stars Official Music Video'
+            }
+        ];
+
+        let currentVideoIndex = 0;
+        let isDarkMode = true;
+
+        // Initialize page
+        function init() {
+            renderVideoList();
+            loadVideo(0);
+            setupEventListeners();
+        }
+
+        // Render sidebar video list
+        function renderVideoList() {
+            const videoList = document.getElementById('videoList');
+            videoList.innerHTML = VIDEOS.map((video, index) => `
+                <div class="video-card flex gap-3 cursor-pointer rounded-lg p-2 transition-all fade-in" 
+                     style="animation-delay: ${index * 0.05}s; background-color: ${index === currentVideoIndex ? 'var(--bg-tertiary)' : 'transparent'}"
+                     data-index="${index}">
+                    <div class="relative flex-shrink-0 w-40 h-24 rounded-lg overflow-hidden">
+                        <img src="${video.thumbnail}" alt="${video.title}" class="w-full h-full object-cover">
+                        <div class="thumbnail-overlay absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 transition-opacity">
+                            <i class="fas fa-play text-white text-2xl"></i>
+                        </div>
+                        <span class="absolute bottom-1 right-1 px-1 text-xs font-semibold text-white bg-black bg-opacity-80 rounded">
+                            ${video.duration}
+                        </span>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h3 class="font-semibold text-sm line-clamp-2 mb-1" style="color: var(--text-primary);">
+                            ${video.title}
+                        </h3>
+                        <p class="text-xs" style="color: var(--text-secondary);">${video.channel}</p>
+                        <p class="text-xs" style="color: var(--text-secondary);">${video.views} • ${video.date}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click listeners
+            document.querySelectorAll('.video-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const index = parseInt(card.dataset.index);
+                    loadVideo(index);
+                });
+            });
+        }
+
+        // Load video into player
+        function loadVideo(index) {
+            currentVideoIndex = index;
+            const video = VIDEOS[index];
+            
+            // Update player
+            document.getElementById('mainPlayer').src = `https://www.youtube.com/embed/${video.id}?autoplay=0&rel=0`;
+            document.getElementById('videoTitle').textContent = video.title;
+            document.getElementById('videoDescription').textContent = video.description;
+            
+            // Update active state
+            document.querySelectorAll('.video-card').forEach((card, i) => {
+                if (i === index) {
+                    card.style.backgroundColor = 'var(--bg-tertiary)';
+                } else {
+                    card.style.backgroundColor = 'transparent';
+                }
+            });
+
+            // Scroll to top on mobile
+            if (window.innerWidth < 1024) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Theme toggle
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+            const icon = document.getElementById('themeIcon');
+            icon.className = isDarkMode ? 'fas fa-moon text-xl' : 'fas fa-sun text-xl';
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Theme toggle
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+            // Mobile search toggle
+            document.getElementById('mobileSearchBtn').addEventListener('click', () => {
+                const searchBar = document.getElementById('mobileSearchBar');
+                searchBar.classList.toggle('hidden');
+            });
+
+            // Sidebar toggle
+            document.getElementById('menuToggle').addEventListener('click', () => {
+                const sidebar = document.getElementById('sidebar');
+                const main = document.getElementById('mainContent');
+                sidebar.classList.toggle('sidebar-desktop');
+                if (window.innerWidth >= 768) {
+                    if (sidebar.classList.contains('sidebar-desktop')) {
+                        main.classList.add('md:ml-64');
+                    } else {
+                        main.classList.remove('md:ml-64');
+                    }
+                }
+            });
+
+            // Search functionality - non-functional, just UI feedback
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    alert('Search functionality is non-functional in this demo. Replace videos in the VIDEOS array to customize content.');
+                }
+            });
+
+            // Load saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                isDarkMode = savedTheme === 'dark';
+                document.body.setAttribute('data-theme', savedTheme);
+                document.getElementById('themeIcon').className = isDarkMode ? 'fas fa-moon text-xl' : 'fas fa-sun text-xl';
+            }
+        }
+
+        // Handle responsive sidebar
+        window.addEventListener('resize', () => {
+            const sidebar = document.getElementById('sidebar');
+            const main = document.getElementById('mainContent');
+            if (window.innerWidth < 768) {
+                sidebar.classList.remove('sidebar-desktop');
+                main.classList.remove('md:ml-64');
+            } else {
+                sidebar.classList.add('sidebar-desktop');
+                main.classList.add('md:ml-64');
+            }
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+</body>
+</html>
